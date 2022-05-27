@@ -26,4 +26,11 @@ Route::name('web.')->group(function() {
     Route::get('/detail-product/{id}', 'Web\ProductController@detailProduct')->name('detail_product');
 });
 
+Route::get('/', 'Admin\AdminController@getLogin');
+Route::post('/', 'Admin\AdminController@postLogin');
 
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
