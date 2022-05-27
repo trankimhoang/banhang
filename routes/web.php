@@ -22,6 +22,8 @@ Route::name('web.')->group(function() {
     Route::get('/list-cart','Web\CartController@ListProduct')->name('cart_list_product');
 
     Route::get('/delete-cart/{id}', 'Web\CartController@deleteCart')->name('delete_cart');
+
+    Route::get('/detail-product/{id}', 'Web\ProductController@detailProduct')->name('detail_product');
 });
 
 

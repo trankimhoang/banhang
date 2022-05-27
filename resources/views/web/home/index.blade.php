@@ -1,6 +1,7 @@
 @extends('layouts.app_web_master')
 
 @section('title_heading', 'test title')
+@section('title', 'Home Page')
 
 @section('description_heading', 'mo ta title')
 

@@ -2,6 +2,8 @@
 
 @section('title_heading', 'test title')
 
+@section('title', 'Cart')
+
 @section('description_heading', 'mo ta title')
 
 @section('menu')

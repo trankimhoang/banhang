@@ -2,6 +2,8 @@
 
 @section('title_heading', 'test title')
 
+@section('title', 'Search')
+
 @section('description_heading', 'mo ta title')
 
 @section('content')

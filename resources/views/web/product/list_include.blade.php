@@ -14,10 +14,10 @@
             </div>
             <!-- Product actions-->
             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center"><a class="btn btn-outline-dark mt-auto"
-                                            href="{{ route('web.add_cart', ['id' => $product->id]) }}">Add to cart</a></div>
-                <div class="text-center" style="padding-top: 10px"><a class="btn btn-outline-dark mt-auto"
-                                                                      href="#">Detail</a></div>
+                <div class="text-center">
+                    <a class="btn btn-outline-dark mt-auto" href="{{ route('web.add_cart', ['id' => $product->id]) }}">Add to cart</a>
+                    <a class="btn btn-outline-dark mt-auto" href="{{ route('web.detail_product', ['id' => $product->id]) }}">Detail</a>
+                </div>
             </div>
         </div>
     </div>
