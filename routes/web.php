@@ -26,11 +26,16 @@ Route::name('web.')->group(function() {
     Route::get('/detail-product/{id}', 'Web\ProductController@detailProduct')->name('detail_product');
 });
 
-Route::get('/', 'Admin\AdminController@getLogin');
-Route::post('/', 'Admin\AdminController@postLogin');
+// auth custom
+Route::middleware('guest:web')->group(function () {
+    Route::get('login', 'Web\Auth\LoginController@showLoginForm')->name('login');
+    Route::post('login', 'Web\Auth\LoginController@login');
+    Route::get('register', 'Web\Auth\RegisterController@showRegistrationForm')->name('register');
+    Route::post('register', 'Web\Auth\RegisterController@register');
 
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('password/reset', 'Web\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('password/email', 'Web\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('password/reset/{token}', 'Web\Auth\ResetPasswordController@showResetForm')->name('password.reset');
+    Route::post('password/reset', 'Web\Auth\ResetPasswordController@reset')->name('password.update');
+});
+// end auth customer
