@@ -1,71 +1,266 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>@yield('title')</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{ asset('theme/assets/favicon.ico') }}" />
-    <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{ asset('theme/css/styles.css') }}" rel="stylesheet" />
+    <title>Colo Shop</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Colo Shop Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+
 <body>
-<!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="{{ route('web.home') }}">Start Bootstrap</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                @yield('menu')
-            </ul>
-            <form class="d-flex">
-                <a href="{{ route('web.cart_list_product') }}" class="btn btn-outline-dark" type="submit">
-                    <i class="bi-cart-fill me-1"></i>
-                    Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">{{ array_sum(request()->session()->get('product_carts') ?? []) }}</span>
-                </a>
-            </form>
-            <form class="d-flex p-2" action="{{ route('web.product.search') }}">
-                <input name="s" value="{{ request()->get('s') }}" class="form-control mr-sm-2" style="margin-right: 7px;" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</nav>
-<!-- Header-->
-<header class="bg-dark py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">@yield('title_heading')</h1>
-            <p class="lead fw-normal text-white-50 mb-0">@yield('description_heading')</p>
-        </div>
-    </div>
-</header>
-<!-- Section-->
-<section class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
-        @if (\Session::has('success'))
-            <div class="alert alert-success">
-                {!! \Session::get('success') !!}
+
+<div class="super_container">
+
+    <!-- Header -->
+
+    <header class="header trans_300" style="top: -50px;">
+
+        <!-- Top Navigation -->
+
+        <div class="top_nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="top_nav_left">free shipping on all u.s orders over $50</div>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <div class="top_nav_right">
+                            <ul class="top_nav_menu">
+
+                                <!-- Currency / Language / My Account -->
+
+                                <li class="currency">
+                                    <a href="#">
+                                        usd
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="currency_selection">
+                                        <li><a href="#">cad</a></li>
+                                        <li><a href="#">aud</a></li>
+                                        <li><a href="#">eur</a></li>
+                                        <li><a href="#">gbp</a></li>
+                                    </ul>
+                                </li>
+                                <li class="language">
+                                    <a href="#">
+                                        English
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="language_selection">
+                                        <li><a href="#">French</a></li>
+                                        <li><a href="#">Italian</a></li>
+                                        <li><a href="#">German</a></li>
+                                        <li><a href="#">Spanish</a></li>
+                                    </ul>
+                                </li>
+                                <li class="account">
+                                    <a href="#">
+                                        My Account
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="account_selection">
+                                        @if(\Illuminate\Support\Facades\Auth::guard('web')->check())
+                                            <li><a href="#"><i class="fa fa-user"
+                                                               aria-hidden="true"></i>{{ \Illuminate\Support\Facades\Auth::guard('web')->user()->name }}
+                                                </a></li>
+                                            <li><a href="{{ route('web.logout') }}"><i class="fa fa-user"
+                                                                                       aria-hidden="true"></i>logout</a>
+                                            </li>
+                                        @else
+                                            <li><a href="{{ route('web.login') }}"><i class="fa fa-sign-in"
+                                                                                      aria-hidden="true"></i>Sign In</a>
+                                            </li>
+                                            <li><a href="{{ route('web.register') }}"><i class="fa fa-user-plus"
+                                                                                         aria-hidden="true"></i>Register</a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-        @endif
+        </div>
+
+        <!-- Main Navigation -->
+
+        <div class="main_nav_container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-right">
+                        <div class="logo_container">
+                            <a href="{{ route('web.home') }}">colo<span>shop</span></a>
+                        </div>
+                        <nav class="navbar">
+                            <ul class="navbar_menu">
+                                <li><a href="#">home</a></li>
+
+                            </ul>
+                            <ul class="navbar_user">
+                                <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                <li class="checkout">
+                                    <a href="{{ route('web.cart_list_product') }}">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        <span id="checkout_items"
+                                              class="checkout_items">{{ array_sum(request()->session()->get('product_carts') ?? []) }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="hamburger_container">
+                                <i class="fa fa-bars" aria-hidden="true"></i>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <div class="fs_menu_overlay"></div>
+    <div class="hamburger_menu">
+        <div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+        <div class="hamburger_menu_content text-right">
+            <ul class="menu_top_nav">
+                <li class="menu_item has-children">
+                    <a href="#">
+                        usd
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="menu_selection">
+                        <li><a href="#">cad</a></li>
+                        <li><a href="#">aud</a></li>
+                        <li><a href="#">eur</a></li>
+                        <li><a href="#">gbp</a></li>
+                    </ul>
+                </li>
+                <li class="menu_item has-children">
+                    <a href="#">
+                        English
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="menu_selection">
+                        <li><a href="#">French</a></li>
+                        <li><a href="#">Italian</a></li>
+                        <li><a href="#">German</a></li>
+                        <li><a href="#">Spanish</a></li>
+                    </ul>
+                </li>
+                <li class="menu_item has-children">
+                    <a href="#">
+                        My Account
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="menu_selection">
+                        @if(\Illuminate\Support\Facades\Auth::guard('web')->check())
+                            <li><a href="#"><i class="fa fa-user"
+                                               aria-hidden="true"></i>{{ \Illuminate\Support\Facades\Auth::guard('web')->user()->name }}
+                                </a></li>
+                            <li><a href="{{ route('web.logout') }}"><i class="fa fa-user" aria-hidden="true"></i>logout</a>
+                            </li>
+                        @else
+                            <li><a href="{{ route('web.login') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign
+                                    In</a></li>
+                            <li><a href="{{ route('web.register') }}"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+                <li class="menu_item"><a href="#">home</a></li>
+                <li class="menu_item"><a href="#">shop</a></li>
+                <li class="menu_item"><a href="#">promotion</a></li>
+                <li class="menu_item"><a href="#">pages</a></li>
+                <li class="menu_item"><a href="#">blog</a></li>
+                <li class="menu_item"><a href="#">contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slider -->
+
+
+    <div class="main_slider" style="background-image:url({{ asset('theme_user/images/slider_1.jpg') }})">
+    </div>
+    <div class="container p-3">
+        <div class="col-md-12">
+            @if(\Illuminate\Support\Facades\Auth::guard('web')->check())
+                <p>Hiiii, {{ \Illuminate\Support\Facades\Auth::guard('web')->user()->name }}</p>
+            @endif
+            <form action="{{ route('web.product.search') }}" class="d-flex">
+                <input name="s" type="text" class="form-control" placeholder="search..."
+                       value="{{ request()->get('s') ?? '' }}">
+                <button class="btn btn-primary ml-2"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container mt-5">
         @yield('content')
     </div>
-</section>
-<!-- Footer-->
-<footer class="py-5 bg-dark">
-    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
-</footer>
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="{{ asset('theme/js/scripts.js') }}"></script>
+
+
+    <!-- Footer -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div
+                        class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+                        <ul class="footer_nav">
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="contact.html">Contact us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div
+                        class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer_nav_container">
+                        <div class="cr">©2018 All Rights Reserverd. Made with <i class="fa fa-heart-o"
+                                                                                 aria-hidden="true"></i> by <a href="#">Colorlib</a>
+                            &amp; distributed by <a href="https://themewagon.com">ThemeWagon</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+@hasSection('custom_link_file')
+    @yield('custom_link_file')
+@else
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/styles/bootstrap4/bootstrap.min.css') }}">
+    <link href="{{ asset('theme_user/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/plugins/OwlCarousel2-2.2.1/owl.carousel.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('theme_user/plugins/OwlCarousel2-2.2.1/owl.theme.default.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/plugins/OwlCarousel2-2.2.1/animate.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/styles/main_styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/styles/responsive.css') }}">
+    <script src="{{ asset('theme_user/js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('theme_user/styles/bootstrap4/popper.js') }}"></script>
+    <script src="{{ asset('theme_user/styles/bootstrap4/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('theme_user/plugins/Isotope/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ asset('theme_user/plugins/OwlCarousel2-2.2.1/owl.carousel.js') }}"></script>
+    <script src="{{ asset('theme_user/plugins/easing/easing.js') }}"></script>
+    <script src="{{ asset('theme_user/js/custom.js') }}"></script>
+@endif
 </body>
 </html>

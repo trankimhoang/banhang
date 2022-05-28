@@ -1,152 +1,58 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Detail</title>
-    <link href="https://fonts.googleapis.com/css?family=Bentham|Playfair+Display|Raleway:400,500|Suranna|Trocchi" rel="stylesheet">
+@extends('layouts.app_web_master')
 
-    <style>
-        body {
-            background-color: #fdf1ec;
-        }
+@section('custom_link_file')
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/styles/bootstrap4/bootstrap.min.css') }}">
+    <link href="{{ asset('theme_user/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/plugins/OwlCarousel2-2.2.1/owl.carousel.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/plugins/OwlCarousel2-2.2.1/owl.theme.default.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/plugins/OwlCarousel2-2.2.1/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('theme_user/plugins/themify-icons/themify-icons.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/plugins/jquery-ui-1.12.1.custom/jquery-ui.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/styles/single_styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme_user/styles/single_responsive.css') }}">
+    <script src="{{ asset('theme_user/js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('theme_user/styles/bootstrap4/popper.js') }}"></script>
+    <script src="{{ asset('theme_user/styles/bootstrap4/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('theme_user/plugins/Isotope/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ asset('theme_user/plugins/OwlCarousel2-2.2.1/owl.carousel.js') }}"></script>
+    <script src="{{ asset('theme_user/plugins/easing/easing.js') }}"></script>
+    <script src="{{ asset('theme_user/plugins/jquery-ui-1.12.1.custom/jquery-ui.js') }}"></script>
+    <script src="{{ asset('theme_user/js/single_custom.js') }}"></script>
+@endsection
 
-        .wrapper {
-            height: 420px;
-            width: 654px;
-            margin: 50px auto;
-            border-radius: 7px 7px 7px 7px;
-            /* VIA CSS MATIC https://goo.gl/cIbnS */
-            -webkit-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
-            -moz-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
-            box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
-        }
-
-        .product-img {
-            float: left;
-            height: 420px;
-            width: 327px;
-        }
-
-        .product-img img {
-            border-radius: 7px 0 0 7px;
-        }
-
-        .product-info {
-            float: left;
-            height: 420px;
-            width: 327px;
-            border-radius: 0 7px 10px 7px;
-            background-color: #ffffff;
-        }
-
-        .product-text {
-            height: 300px;
-            width: 327px;
-        }
-
-        .product-text h1 {
-            margin: 0 0 0 38px;
-            padding-top: 52px;
-            font-size: 34px;
-            color: #474747;
-        }
-
-        .product-text h1,
-        .product-price-btn p {
-            font-family: 'Bentham', serif;
-        }
-
-        .product-text h2 {
-            margin: 0 0 47px 38px;
-            font-size: 13px;
-            font-family: 'Raleway', sans-serif;
-            font-weight: 400;
-            text-transform: uppercase;
-            color: #d2d2d2;
-            letter-spacing: 0.2em;
-        }
-
-        .product-text p {
-            height: 125px;
-            margin: 0 0 0 38px;
-            font-family: 'Playfair Display', serif;
-            color: #8d8d8d;
-            line-height: 1.7em;
-            font-size: 15px;
-            font-weight: lighter;
-            overflow: hidden;
-        }
-
-        .product-price-btn {
-            height: 103px;
-            width: 327px;
-            margin-top: 17px;
-            position: relative;
-        }
-
-        .product-price-btn p {
-            display: inline-block;
-            position: absolute;
-            top: -13px;
-            height: 50px;
-            font-family: 'Trocchi', serif;
-            margin: 0 0 0 38px;
-            font-size: 28px;
-            font-weight: lighter;
-            color: #474747;
-        }
-
-        span {
-            display: inline-block;
-            height: 50px;
-            font-family: 'Suranna', serif;
-            font-size: 34px;
-        }
-
-        .product-price-btn button {
-            float: right;
-            display: inline-block;
-            height: 50px;
-            width: 176px;
-            margin: 0 40px 0 16px;
-            box-sizing: border-box;
-            border: transparent;
-            border-radius: 60px;
-            font-family: 'Raleway', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: #ffffff;
-            background-color: #9cebd5;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .product-price-btn button:hover {
-            background-color: #79b0a1;
-        }
-    </style>
-</head>
-<body>
-
-<div class="wrapper">
-    <div class="product-img">
-        <img src="{{ asset($product->getImagePath() ?? 'no_img.png') }}" height="420" width="327">
-    </div>
-    <div class="product-info">
-        <div class="product-text">
-            <h1>{{ $product->name }}</h1>
-            <h2>{{ $product->description }}</h2>
-            <p>{{ $product->content }}</p>
+@section('content')
+    <div class="row" style="margin-top: 10%;">
+        <div class="col-lg-7">
+            <div class="single_product_pics">
+                <div class="row">
+                    <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
+                        <div class="single_product_thumbnails">
+                            <ul>
+                                @foreach($product->Images as $image)
+                                    <li><img src="{{ asset($image->path) }}" alt="" data-image="{{ asset($image->path) }}"></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 image_col order-lg-2 order-1">
+                        <div class="single_product_image">
+                            <div class="single_product_image_background" style="background-image:url({{ asset($product->getImagePath()) }})"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="product-price-btn">
-            <p><span>{{ $product->price }}</span>$</p>
-            <button type="button">buy now</button>
+        <div class="col-lg-5">
+            <div class="product_details">
+                <div class="product_details_title">
+                    <h2>{{ $product->name }}</h2>
+                    <p>{{ $product->content }}</p>
+                </div>
+                <div class="product_price">{{ $product->price }}</div>
+                <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
+                    <div class="red_button add_to_cart_button"><a href="{{ route('web.add_cart', ['id' => $product->id]) }}">add to cart</a></div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-</html>
+@endsection

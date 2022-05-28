@@ -24,18 +24,21 @@ Route::name('web.')->group(function() {
     Route::get('/delete-cart/{id}', 'Web\CartController@deleteCart')->name('delete_cart');
 
     Route::get('/detail-product/{id}', 'Web\ProductController@detailProduct')->name('detail_product');
+
+    // auth custom
+    Route::middleware('guest:web')->group(function () {
+        Route::get('login', 'Web\Auth\LoginController@showLoginForm')->name('login');
+        Route::post('login', 'Web\Auth\LoginController@login');
+        Route::get('register', 'Web\Auth\RegisterController@showRegistrationForm')->name('register');
+        Route::post('register', 'Web\Auth\RegisterController@register');
+
+        Route::get('password/reset', 'Web\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+        Route::post('password/email', 'Web\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+        Route::get('password/reset/{token}', 'Web\Auth\ResetPasswordController@showResetForm')->name('password.reset');
+        Route::post('password/reset', 'Web\Auth\ResetPasswordController@reset')->name('password.update');
+    });
+    // end auth customer
+    Route::get('/logout','Web\Auth\LoginController@logout')->name('logout');
 });
 
-// auth custom
-Route::middleware('guest:web')->group(function () {
-    Route::get('login', 'Web\Auth\LoginController@showLoginForm')->name('login');
-    Route::post('login', 'Web\Auth\LoginController@login');
-    Route::get('register', 'Web\Auth\RegisterController@showRegistrationForm')->name('register');
-    Route::post('register', 'Web\Auth\RegisterController@register');
 
-    Route::get('password/reset', 'Web\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::post('password/email', 'Web\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::get('password/reset/{token}', 'Web\Auth\ResetPasswordController@showResetForm')->name('password.reset');
-    Route::post('password/reset', 'Web\Auth\ResetPasswordController@reset')->name('password.update');
-});
-// end auth customer
