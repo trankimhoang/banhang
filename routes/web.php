@@ -25,6 +25,8 @@ Route::name('web.')->group(function() {
 
     Route::get('/detail-product/{id}', 'Web\ProductController@detailProduct')->name('detail_product');
 
+    Route::get('/chuyen-muc/{id}', 'Web\CategoryController@detailCategory')->name('detail_category');
+
     // auth custom
     Route::middleware('guest:web')->group(function () {
         Route::get('login', 'Web\Auth\LoginController@showLoginForm')->name('login');
