@@ -42,5 +42,37 @@ Route::prefix('/admin')->name('admin.')->group(function () {
 
             return view('layouts.app');
         })->name('home');
+
+        //Product
+        Route::get('/product', 'Admin\ProductController@index')->name('product.list');
+
+        Route::get('/product/add-product', 'Admin\ProductController@addProduct')->name('product.add');
+        Route::post('/product/add-product', 'Admin\ProductController@addProductPost')->name('product.add.post');
+
+        Route::get('product/edit-product/{id}', 'Admin\ProductController@editProduct')->name('product.edit');
+        Route::post('/product/edit-product/{id}', 'Admin\ProductController@editProductPost')->name('product.edit.post');
+
+        Route::get('product/delete-product/{id}', 'Admin\ProductController@deleteProduct')->name('product.delete');
+
+        //Category
+        Route::get('/category', 'Admin\CategoryController@listCategory')->name('category.list');
+
+        Route::get('/category/add-category', 'Admin\CategoryController@addCategory')->name('category.add');
+        Route::post('/category/add-category', 'Admin\CategoryController@addCategoryPost')->name('category.add.post');
+
+        Route::get('/category/edit-category/{id}', 'Admin\CategoryController@editCategory')->name('category.edit');
+        Route::post('/category/edit-category/{id}', 'Admin\CategoryController@editCategoryPost')->name('category.edit.post');
+
+        Route::get('/category/delete-category/{id}', 'Admin\CategoryController@deleteCategory')->name('category.delete');
+
+        //User
+        Route::get('/user', 'Admin\UserController@listUser')->name('user.list');
+
+        Route::get('/user/add-user', 'Admin\UserController@addUser')->name('user.add');
+        Route::post('/user/add-user', 'Admin\UserController@addUserPost')->name('user.add.post');
+
+
+        Route::get('/user/delete-user/{id}', 'Admin\UserController@deleteUser')->name('user.delete');
     });
 });
+

@@ -357,6 +357,9 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
+                @if(Session::has('success'))
+                    <p class="alert alert-success">{{ Session::get('success') }}</p>
+                @endif
                 @yield('content')
             </div>
             <!-- /.container-fluid -->
