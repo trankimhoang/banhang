@@ -29,7 +29,7 @@ Route::prefix('/admin')->name('admin.')->group(function () {
 
 
     Route::middleware('auth:admin')->group(function (){
-        Route::get('/test', function (){
+        Route::get('/', function (){
             // check trang thai dang nhap
 //        if (\Illuminate\Support\Facades\Auth::guard('admin')->check() == true) {
 //            print_r(\Illuminate\Support\Facades\Auth::guard('admin')->user()->toArray());
@@ -71,8 +71,25 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::get('/user/add-user', 'Admin\UserController@addUser')->name('user.add');
         Route::post('/user/add-user', 'Admin\UserController@addUserPost')->name('user.add.post');
 
+        Route::get('/user/edit-user/{id}', 'Admin\UserController@editUser')->name('user.edit');
+        Route::post('/user/edit-user/{id}', 'Admin\UserController@editUserPost')->name('user.edit.post');
 
         Route::get('/user/delete-user/{id}', 'Admin\UserController@deleteUser')->name('user.delete');
+
+        //Admin
+        Route::get('/admin/', 'Admin\AdminController@listAdmin')->name('admin.list');
+
+        Route::get('/admin/add-admin', 'Admin\AdminController@addAdmin')->name('admin.add');
+        Route::post('/admin/add-admin', 'Admin\AdminController@addAdminPost')->name('admin.add.post');
+
+        Route::get('/admin/edit-admin/{id}', 'Admin\AdminController@editAdmin')->name('admin.edit');
+        Route::post('/admin/edit-admin/{id}', 'Admin\AdminController@editAdminPost')->name('admin.edit.post');
+
+        Route::get('/admin/delete-admin/{id}', 'Admin\AdminController@deleteAdmin')->name('admin.delete');
+
+       //Dashboard
+        Route::get('/dashboard', 'Admin\AdminController@dashboard')->name('dashboard');
+
     });
 });
 

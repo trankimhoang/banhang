@@ -1,24 +1,17 @@
 @extends('layouts.app')
+@section('title', 'Edit Admin')
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <form action="{{ route('admin.user.add.post') }}" method="post">
+            <form action="{{ route('admin.admin.edit.post', ['id' => $admin->id]) }}" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="name" class="text-bold">Name</label>
-                    <input type="text" name="name" class="form-control">
+                    <input type="text" name="name" class="form-control" value="{{ $admin->name }}">
                 </div>
                 <div class="form-group">
                     <label for="name" class="text-bold">Email</label>
-                    <input type="email" name="email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="name" class="text-bold">Phone</label>
-                    <input type="text" name="phone" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="name" class="text-bold">Address</label>
-                    <input type="text" name="address" class="form-control">
+                    <input type="email" name="email" class="form-control" value="{{ $admin->email }}">
                 </div>
                 <div class="form-group">
                     <label for="name" class="text-bold">Password</label>
@@ -29,7 +22,6 @@
                     Save
                 </button>
             </form>
-
         </div>
     </div>
 @endsection

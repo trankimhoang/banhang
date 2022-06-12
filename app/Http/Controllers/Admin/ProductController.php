@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     public function index(Request $request){
-        $listProduct = Product::paginate(5);
+        $listProduct = Product::with(['Categorys'])->paginate(5);
         return view('admin.product.list_product', compact('listProduct'));
     }
 
     public function addProduct(Request $request){
-        return view('admin.product.add_product');
+        $listCategory = Category::all();
+
+        return view('admin.product.add_product',compact('listCategory'));
     }
 
     public function addProductPost(Request $request){
@@ -23,19 +27,38 @@ class ProductController extends Controller
             'description' => $request->get('description'),
             'price' => $request->get('price'),
             'content' => $request->get('content'),
+            'image' => ''
         ]);
         $product->save();
+
+        if (!empty($request->get('category'))) {
+            $dataInsert = [];
+
+            foreach ($request->get('category') as $item) {
+                $dataInsert[] = [
+                    'product_id' => $product->getAttribute('id'),
+                    'category_id' => $item
+                ];
+            }
+
+            DB::table('product_category')->insert($dataInsert);
+        }
+
 
         return redirect()->route('admin.product.list')->with(['success' => 'them thanh cong #' . $product->getAttribute('id')]);
     }
 
     public function editProduct(Request $request, $id){
-        $product = Product::find($id);
+        $product = Product::with(['Categorys'])->find($id);
+        $listCategory = Category::all();
+        $categorysOfProduct = $product->Categorys->mapWithKeys(function ($item){
+            return [$item->pivot->category_id => true];
+        })->toArray();
 
         if (empty($product)) {
             abort(404);
         }
-        return view('admin.product.edit_product', compact('product'));
+        return view('admin.product.edit_product', compact('product', 'listCategory', 'categorysOfProduct'));
     }
 
     public function editProductPost(Request $request, $id){
@@ -46,21 +69,38 @@ class ProductController extends Controller
         $product->setAttribute('content', $request->get('content'));
 
         $image = $request->file('image');
-        // xxxxxxxxgido.png // png or jpg
-        // chuyen sang thanh 1 array 2 phan tu ['xxxxxxxxgido', 'png]
-        $ext = explode('.', $image->getClientOriginalName());
-        // lay phan tu cui cung ['xxxxxxxxgido', 'png] => lay png
-        $ext = $ext[array_key_last($ext)];
-        // dat ten cho image id_product.png
-        $nameImage = $product->getAttribute('id') . '.' . $ext;
-        // luu vao public]
-        $image->move(public_path('product-images'), $nameImage);
-        // set attr image
-        $product->setAttribute('image', $nameImage);
+        if (!empty($image)) {
+            // xxxxxxxxgido.png // png or jpg
+            // chuyen sang thanh 1 array 2 phan tu ['xxxxxxxxgido', 'png]
+            $ext = explode('.', $image->getClientOriginalName());
+            // lay phan tu cui cung ['xxxxxxxxgido', 'png] => lay png
+            $ext = $ext[array_key_last($ext)];
+            // dat ten cho image id_product.png
+            $nameImage = $product->getAttribute('id') . '.' . $ext;
+            // luu vao public]
+            $image->move(public_path('product-images'), $nameImage);
+            // set attr image
+            $product->setAttribute('image', $nameImage);
+        }
 
         $product->save();
 
-        return redirect()->back()->with(['success' => 'Sua thanh cong #' . $id]);
+        DB::table('product_category')->where('product_id', $product->id)
+            ->delete();
+        if (!empty($request->get('category'))) {
+            $dataInsert = [];
+
+            foreach ($request->get('category') as $item) {
+                $dataInsert[] = [
+                    'product_id' => $product->getAttribute('id'),
+                    'category_id' => $item
+                ];
+            }
+
+            DB::table('product_category')->insert($dataInsert);
+        }
+
+        return redirect()->route('admin.product.list')->with(['success' => 'Sua thanh cong #' . $id]);
     }
 
     public function deleteProduct(Request $request, $id){
