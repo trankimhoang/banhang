@@ -18,7 +18,8 @@
 
 @section('content')
     <div class="row">
-        @foreach($listProduct as $product)
+        @if(count($listProduct) > 0)
+            @foreach($listProduct as $product)
             <div class="col-md-3">
                 <div class="card h-100">
                     <!-- Product image-->
@@ -44,6 +45,8 @@
                 </div>
             </div>
         @endforeach
-
+        @else
+            <span class="badge badge-danger">Khong co san pham trong gio hang</span>
+        @endif
     </div>
 @endsection

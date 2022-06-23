@@ -25,15 +25,15 @@
         <div class="col-lg-7">
             <div class="single_product_pics">
                 <div class="row">
-                    <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
-                        <div class="single_product_thumbnails">
-                            <ul>
-                                @foreach($product->Images as $image)
-                                    <li><img src="{{ asset($image->path) }}" alt="" data-image="{{ asset($image->path) }}"></li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
+{{--                    <div class="col-lg-3 thumbnails_col order-lg-1 order-2">--}}
+{{--                        <div class="single_product_thumbnails">--}}
+{{--                            <ul>--}}
+{{--                                @foreach($product->Images as $image)--}}
+{{--                                    <li><img src="{{ asset($image->path) }}" alt="" data-image="{{ asset($image->path) }}"></li>--}}
+{{--                                @endforeach--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <div class="col-lg-9 image_col order-lg-2 order-1">
                         <div class="single_product_image">
                             <div class="single_product_image_background" style="background-image:url({{ asset($product->getImagePath()) }})"></div>
@@ -46,6 +46,14 @@
             <div class="product_details">
                 <div class="product_details_title">
                     <h2>{{ $product->name }}</h2>
+                    <h5>Danh muc</h5>
+                    @if($product->Categorys->count() > 0)
+                        @foreach($product->Categorys as $category)
+                            <span class="badge badge-secondary">{{ $category->name }}</span>
+                        @endforeach
+                    @else
+                        <span class="badge badge-danger">Khong co danh muc</span>
+                    @endif
                     <p>{{ $product->content }}</p>
                 </div>
                 <div class="product_price">{{ $product->price }}</div>

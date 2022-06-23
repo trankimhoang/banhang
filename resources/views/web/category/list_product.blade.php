@@ -15,7 +15,7 @@
             @include('web.product.list_include', compact('listProduct'))
         @else
             <div class="col-md-12">
-                <p class="text-danger">Khong co san pham</p>
+                <span class="badge badge-danger">Khong co san pham</span>
             </div>
         @endif
     </div>

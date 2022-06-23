@@ -15,7 +15,13 @@ class Product extends Model
     }
 
     public function getImagePath() {
-        return 'product-images/' . $this->getAttribute('image');
+        $path = 'product-images/' . $this->getAttribute('image');
+
+        if (is_file(public_path($path))) {
+            return $path;
+        }
+
+        $path = 'product-images/' . 'notfound.webp';
     }
 
     public function Categorys() {
